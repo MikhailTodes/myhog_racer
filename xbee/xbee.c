@@ -53,7 +53,7 @@ int main() {
 
   while (1) {
     //OC1RS = 2500;    //for 5% OC1RS/(PR3+1) = 5% --> 1ms
-    NU32_WriteUART3("Type motor serv1 serv2 \r");
+    NU32_WriteUART3("Type motor serv1 serv2 \r\n");
     NU32_LED1 = 0;
     NU32_ReadUART3(msg, MSG_LEN);             // get the response
     sscanf(msg, "%d %d %d", motor, serv1, serv2);
@@ -65,7 +65,7 @@ int main() {
       OC3RS = serv2;
     }
 
-    sprintf(msg, "motor = %d, s1 = %d, s2 = %d\r", motor, serv1, serv2);//testing
+    sprintf(msg, "motor = %d, s1 = %d, s2 = %d\r\n", motor, serv1, serv2);//testing
     NU32_WriteUART3(msg);//testing
     NU32_LED1 = 1;
     OC1RS = motor;
