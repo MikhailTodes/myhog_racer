@@ -34,8 +34,8 @@ int main() {
   //***********PWM TIMER 3 OC2 Servo 1 pin D1 *********************************
   OC2CONbits.OCM = 0b110;  //PWM mode without fault pin; other OC1CON bits are defaults
   OC2CONbits.OCTSEL = 1;  //Connect to timer 3
-  OC2RS = 375;             //for 5% OC2RS/(PR3+1) = 5% --> 1ms
-  OC2R = 375;              //25%
+  OC2RS = 3750;             //for 5% OC2RS/(PR3+1) = 5% --> 1ms
+  OC2R = 3750;              //25%
   OC2CONbits.ON = 1;       //Turn on OC2
   //****************************************************************
 
@@ -43,16 +43,16 @@ int main() {
   //***********PWM TIMER 3 OC3 Servo 2 pin D2 *********************************
   OC3CONbits.OCM = 0b110;  //PWM mode without fault pin; other OC1CON bits are defaults
   OC3CONbits.OCTSEL = 1;  //Connect to timer 3
-  OC3RS = 375;             //for 5% OC3RS/(PR3+1) = 5% --> 1ms
-  OC3R = 375;              //25%
+  OC3RS = 3750;             //for 5% OC3RS/(PR3+1) = 5% --> 1ms
+  OC3R = 3750;              //25%
   OC3CONbits.ON = 1;       //Turn on OC3
   //****************************************************************
 
   
 
   int motor = 2500;
-  int serv1 = 375;
-  int serv2 = 375;
+  int serv1 = 3750;
+  int serv2 = 3750;
   NU32_LED1 = 0;
   NU32_LED2 = 0;
 
@@ -84,10 +84,10 @@ int main() {
     NU32_LED2 = 1;
 
        
-    if(serv1>150 && serv1<600){//safe range
+    if(serv1>1500 && serv1<6000){//safe range
       OC2RS = serv1;
     }
-    if(serv2>150 && serv2<600){//safe range
+    if(serv2>1500 && serv2<6000){//safe range
       OC3RS = serv2;
     }       
     OC1RS = motor;

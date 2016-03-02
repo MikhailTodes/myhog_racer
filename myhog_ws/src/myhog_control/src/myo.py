@@ -30,17 +30,17 @@ def callback(data):
     global gest
     
     if (data.data ==1):
-        gest = 151
+        gest = 1501
     elif(data.data==2):
-        gest = 200
+        gest = 2000
     elif(data.data==3):
-        gest = 400
+        gest = 4000
     elif(data.data==4):
-        gest = 500
+        gest = 5000
     elif(data.data==5):
-        gest = 599
+        gest = 5999
     else:
-        gest = 375
+        gest = 3750
     
     msg = "{0:d},{0:d},{0:d}\n".format(gest,gest,gest)
     print msg
