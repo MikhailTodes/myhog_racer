@@ -29,19 +29,19 @@ def callback(data):
     #msg = "{0:d}\n".format(cnt)
     global gest
     
-    if (data.data ==1){
+    if (data.data ==1):
         gest = 151
-    }else if(data.data==2){
+    elif(data.data==2):
         gest = 200
-    }else if(data.data==3){
+    elif(data.data==3):
         gest = 400
-    }else if(data.data==4){
+    elif(data.data==4):
         gest = 500
-    }else if(data.data==5){
+    elif(data.data==5):
         gest = 599
-    }else{
+    else:
         gest = 375
-    }
+    
 
     msg = "" + str(gest) + "," + str(gest) + "," + str(gest)
     #print msg
