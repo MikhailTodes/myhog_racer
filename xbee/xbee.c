@@ -1,10 +1,11 @@
 #include "NU32.h"          // constants, funcs for startup and UART
 #include "LCD.h"
 
-#define MSG_LEN 100
+#define MSG_LEN 1000
 
 int main() {
   char msg[MSG_LEN];
+  char msg2[MSG_LEN];
 
   NU32_Startup();         // cache on, interrupts on, LED/button init, UART init
   //LCD_Setup();
@@ -52,11 +53,20 @@ int main() {
   int serv2 = 375;
 
   while (1) {
-    //OC1RS = 2500;    //for 5% OC1RS/(PR3+1) = 5% --> 1ms
+
     NU32_WriteUART3("Type motor serv1 serv2 \r\n");
     NU32_LED1 = 0;
     NU32_ReadUART3(msg, MSG_LEN);             // get the response
-    sscanf(msg, "%d %d %d", motor, serv1, serv2);
+    
+    sprintf(msg2, "\nm=%d, s1=%d, s2=%d\r\n", motor, serv1, serv2);
+    NU32_WriteUART3(msg);
+    NU32_WriteUART3("\n");
+
+    //sscanf(msg, "%d %d %d\n", motor, serv1, serv2);
+
+    
+
+    
 
     if(serv1>150 && serv1<600){//safe range
       OC2RS = serv1;
@@ -65,15 +75,14 @@ int main() {
       OC3RS = serv2;
     }
 
-    sprintf(msg, "motor = %d, s1 = %d, s2 = %d\r\n", motor, serv1, serv2);//testing
-    NU32_WriteUART3(msg);//testing
+    
     NU32_LED1 = 1;
     OC1RS = motor;
 
-
-    int i = 0;
+     int i = 0;
     for (i=0; i<50000; i++)
       asm("nop");
+
   }
   return 0;
 }
