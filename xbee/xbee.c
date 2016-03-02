@@ -10,7 +10,7 @@ int main() {
   char msg2[MSG_LEN];
   char msg3[MSG_LEN];
   NU32_Startup();         // cache on, interrupts on, LED/button init, UART init
-  //LCD_Setup();
+  LCD_Setup();
 
 
 
@@ -62,6 +62,12 @@ int main() {
     
     NU32_ReadUART3(msg, MSG_LEN);             // get the response
      
+    
+
+    LCD_Move(0,0);
+    LCD_Clear();
+    LCD_WriteString(msg);
+
     NU32_LED1 = 1;
 
     char * split;

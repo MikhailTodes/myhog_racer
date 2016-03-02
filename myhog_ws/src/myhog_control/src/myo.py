@@ -26,7 +26,7 @@ def callback(data):
     rospy.sleep(0.2)
     
     #global cnt
-    #msg = "{0:d}\n".format(cnt)
+    #msg = "{0:d}test\n".format(cnt)
     global gest
     
     if (data.data ==1):
@@ -42,11 +42,9 @@ def callback(data):
     else:
         gest = 375
     
-
-    msg = "" + str(gest) + "," + str(gest) + "," + str(gest)
-    #print msg
-    xbee.write(msg.encode())
+    msg = "{0:d},{0:d},{0:d}\n".format(gest,gest,gest)
     print msg
+    xbee.write(msg)
     rospy.sleep(0.2)
     xbee.flushInput()
     xbee.flushOutput()
