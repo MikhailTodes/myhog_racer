@@ -65,7 +65,8 @@ int main() {
       OC3RS = serv2;
     }
 
-
+    sprintf(msg, "motor = %d, s1 = %d, s2 = %d\r", motor, serv1, serv2);//testing
+    NU32_WriteUART3(msg);//testing
     NU32_LED1 = 1;
     OC1RS = motor;
 
