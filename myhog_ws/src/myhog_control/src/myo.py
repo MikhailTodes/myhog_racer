@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rospy
-from std_msgs.msg import UInt16
+from std_msgs.msg import UInt8
 import serial
 
 gest = 0
@@ -28,9 +28,23 @@ def callback(data):
     #global cnt
     #msg = "{0:d}\n".format(cnt)
     global gest
-    gest = data.data
+    
+    if (data.data ==1){
+        gest = 151
+    }else if(data.data==2){
+        gest = 200
+    }else if(data.data==3){
+        gest = 400
+    }else if(data.data==4){
+        gest = 500
+    }else if(data.data==5){
+        gest = 599
+    }else{
+        gest = 375
+    }
+
     msg = "" + str(gest) + "," + str(gest) + "," + str(gest)
-    print msg
+    #print msg
     xbee.write(msg.encode())
     print msg
     rospy.sleep(0.2)
@@ -38,16 +52,16 @@ def callback(data):
     xbee.flushOutput()
 
     #cnt += 1
-          
+    
     rospy.loginfo(rospy.get_caller_id() + "I heard %s", msg)
     xbee.close()
- 
+    
 if __name__ == '__main__':
 
 
     rospy.init_node('serial_send', anonymous=True)
- 
-    rospy.Subscriber("/myo_gest", UInt16, callback)
- 
+    
+    rospy.Subscriber("/myo_gest", UInt8, callback)
+    
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
