@@ -2,7 +2,7 @@
 #include "LCD.h"
 #include <stdio.h>
 
-#define MSG_LEN 1000
+#define MSG_LEN 10000
 
 int main() {
   char msg[MSG_LEN];
@@ -62,12 +62,6 @@ int main() {
     
     NU32_ReadUART3(msg, MSG_LEN);             // get the response
      
-    
-
-    LCD_Move(0,0);
-    LCD_Clear();
-    LCD_WriteString(msg);
-
     NU32_LED1 = 1;
 
     char * split;
@@ -92,10 +86,10 @@ int main() {
     }       
     OC1RS = motor;
 
-    //sprintf(msg2, "\nm=%d, s1=%d, s2=%d\r\n", OC1RS, OC2RS, OC3RS);    
-    //NU32_WriteUART3(msg2);    
-    //NU32_WriteUART3("\r\n");
-
+    LCD_Move(0,0);
+    LCD_Clear();
+    
+    LCD_WriteString(msg);
 
     int i = 0;
     for (i=0; i<50000; i++)
