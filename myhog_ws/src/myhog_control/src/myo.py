@@ -9,7 +9,7 @@ gest = 0
 yaw = 3750
 pitch = 3750
 
-def gestCallback(data):
+def xbeeSend(event):
     xbee = serial.Serial(
         port='/dev/ttyUSB0', 
         baudrate=57600, 
@@ -27,16 +27,10 @@ def gestCallback(data):
     global gest
     global yaw
     global pitch
-    
-    if (data.data == 1):
-        gest = 3800
-    else:
-        gest = 0
-    
+        
     msg = "{:d},{:d},{:d}\n".format(gest,pitch,yaw)
     print msg
     xbee.write(msg)
-
 
     rospy.sleep(0.2)
     xbee.flushInput()
@@ -44,6 +38,43 @@ def gestCallback(data):
     
     rospy.loginfo(rospy.get_caller_id() + "I heard %s", msg)
     xbee.close()
+
+
+def gestCallback(data):
+#    xbee = serial.Serial(
+#        port='/dev/ttyUSB0', 
+#        baudrate=57600, 
+#        timeout=1,
+#        parity=serial.PARITY_NONE,
+#        stopbits=serial.STOPBITS_ONE,
+#        bytesize=serial.EIGHTBITS,
+#        rtscts=False,
+#        dsrdtr=False
+#    )
+#
+#    xbee.flushInput()
+#    xbee.flushOutput()
+#    rospy.sleep(0.2)    
+    global gest
+    global yaw
+    global pitch
+    
+    if (data.data == 1):
+        gest = 3800
+    else:
+        gest = 0
+    
+#    msg = "{:d},{:d},{:d}\n".format(gest,pitch,yaw)
+#    print msg
+#    xbee.write(msg)
+
+
+ #   rospy.sleep(0.2)
+ #   xbee.flushInput()
+ #   xbee.flushOutput()
+    
+ #   rospy.loginfo(rospy.get_caller_id() + "I heard %s", msg)
+ #   xbee.close()
 
 
 def imuCallback(data):
@@ -84,6 +115,8 @@ if __name__ == '__main__':
 
 
     rospy.init_node('serial_send', anonymous=True)
+
+    rospy.Timer(rospy.Duration(0.5), xbeeSend)
     
     rospy.Subscriber("/myo_gest", UInt8, gestCallback)
     #rospy.Subscriber("/myo_imu", Imu, imuCallback)
