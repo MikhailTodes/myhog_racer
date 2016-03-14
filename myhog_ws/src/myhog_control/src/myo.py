@@ -38,7 +38,7 @@ def xbeeSend(event):
     xbee.flushInput()
     xbee.flushOutput()
     
-    rospy.loginfo(rospy.get_caller_id() + "I heard %s", msg)
+    #rospy.loginfo(rospy.get_caller_id() + "I heard %s", msg)
     xbee.close()
 
 
@@ -58,10 +58,13 @@ def imuCallback(data):
     global yaw
     global pitch
 
-    (r,p,y) = euler_from_quaternion([data.orientation.x,data.orientation.y,data.orientation.z, data.orientation.w])
+    (y,p,r) = euler_from_quaternion([data.orientation.x,data.orientation.y,data.orientation.z, data.orientation.w])
 
-    yaw = int(y*180/3.141)
-    pitch = int(p*180/3.141)
+    y = (((y*57.3065)+90)*(25))+1500
+    p = (((p*57.3065)+90)*(25))+1500
+
+    yaw = int(y)
+    pitch = int(p)
   
     
 if __name__ == '__main__':
@@ -69,7 +72,7 @@ if __name__ == '__main__':
 
     rospy.init_node('serial_send', anonymous=True)
 
-    rospy.Timer(rospy.Duration(0.5), xbeeSend)#Every half second - edit later to push for speed
+    rospy.Timer(rospy.Duration(0.0001), xbeeSend)#Every half second - edit later to push for speed
     
     rospy.Subscriber("/myo_gest", UInt8, gestCallback)
     rospy.Subscriber("/myo_imu", Imu, imuCallback)

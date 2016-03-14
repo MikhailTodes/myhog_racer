@@ -1,5 +1,4 @@
 #include "NU32.h"          // constants, funcs for startup and UART
-#include "LCD.h"
 #include <stdio.h>
 
 #define MSG_LEN 10000
@@ -10,7 +9,6 @@ int main() {
   char msg2[MSG_LEN];
   char msg3[MSG_LEN];
   NU32_Startup();         // cache on, interrupts on, LED/button init, UART init
-  LCD_Setup();
 
 
 
@@ -21,7 +19,6 @@ int main() {
   T3CONbits.ON = 1;        //Turn Timer 3 on
   //********************************************************************
 
-
   //***********PWM TIMER 3 OC1 MOTOR pin D0 *********************************
   OC1CONbits.OCM = 0b110;  //PWM mode without fault pin; other OC1CON bits are defaults
   OC1CONbits.OCTSEL = 1;  //Connect to timer 3
@@ -29,7 +26,6 @@ int main() {
   OC1R = 2500;              //25%  
   OC1CONbits.ON = 1;       //Turn on OC1
   //****************************************************************
-
 
   //***********PWM TIMER 3 OC2 Servo 1 pin D1 *********************************
   OC2CONbits.OCM = 0b110;  //PWM mode without fault pin; other OC1CON bits are defaults
@@ -39,7 +35,6 @@ int main() {
   OC2CONbits.ON = 1;       //Turn on OC2
   //****************************************************************
 
-
   //***********PWM TIMER 3 OC3 Servo 2 pin D2 *********************************
   OC3CONbits.OCM = 0b110;  //PWM mode without fault pin; other OC1CON bits are defaults
   OC3CONbits.OCTSEL = 1;  //Connect to timer 3
@@ -47,7 +42,6 @@ int main() {
   OC3R = 3750;              //25%
   OC3CONbits.ON = 1;       //Turn on OC3
   //****************************************************************
-
   
 
   int motor = 2500;
@@ -57,11 +51,11 @@ int main() {
   NU32_LED2 = 0;
 
   while (1) {
-
-    //NU32_WriteUART3("Type motor serv1 serv2 \r\n");
     
-    NU32_ReadUART3(msg, MSG_LEN);             // get the response
-     
+    NU32_ReadUART3(msg, MSG_LEN);      
+   
+    serv1 = atoi(msg);
+  
     NU32_LED1 = 1;
 
     char * split;
@@ -76,20 +70,15 @@ int main() {
     serv1 = atoi(msg2);
     serv2 = atoi(msg3);
     NU32_LED2 = 1;
-
+    
        
     if(serv1>1500 && serv1<6000){//safe range
       OC2RS = serv1;
     }
-    if(serv2>1500 && serv2<6000){//safe range
+    if(serv2>1500 && serv2<5600){//safe range
       OC3RS = serv2;
     }       
     OC1RS = motor;
-
-    LCD_Move(0,0);
-    LCD_Clear();
-    
-    LCD_WriteString(msg);
 
     int i = 0;
     for (i=0; i<50000; i++)
