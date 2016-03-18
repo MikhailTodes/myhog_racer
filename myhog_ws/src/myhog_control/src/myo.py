@@ -31,9 +31,9 @@ def gestCallback(data):
     global gest
     
     if (data.data == 1):#Turn the motor on
-        gest = 3800
+        gest = 3100
     else:
-        gest = 0
+        gest = 1800
 
 def imuCallback(data):
 

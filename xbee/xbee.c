@@ -44,7 +44,7 @@ int main() {
   //****************************************************************
   
 
-  int motor = 2500;
+  int motor = 1800;
   int serv1 = 3750;
   int serv2 = 3750;
   NU32_LED1 = 0;
@@ -72,10 +72,10 @@ int main() {
     NU32_LED2 = 1;
     
        
-    if(serv1>1500 && serv1<6000){//safe range
+    if(serv1>2700 && serv1<4875){//safe range //1500-6000
       OC2RS = serv1;
     }
-    if(serv2>1500 && serv2<5600){//safe range
+    if(serv2>2500 && serv2<5000){//safe range
       OC3RS = serv2;
     }       
     OC1RS = motor;
