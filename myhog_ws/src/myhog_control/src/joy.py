@@ -1,10 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
-from std_msgs.msg import UInt8
-from sensor_msgs.msg import Imu
-from tf.transformations import euler_from_quaternion
-from geometry_msgs.msg import Quaternion
+from sensor_msgs.msg import Joy
 import serial
 
 gest = 0
@@ -26,28 +23,26 @@ def xbeeSend(event):
     #rospy.loginfo(rospy.get_caller_id() + "I heard %s", msg)
 
 
-def gestCallback(data):
-    
-    global gest
-    
-    if (data.data == 1):#Turn the motor on
-        gest = 3100
-    else:
-        gest = 1800
-
-def imuCallback(data):
+def joyCB(data):
 
     global yaw
     global pitch
+    global gest
+    
+    #if (data.data == 1):#Turn the motor on
+    #    gest = 3100
+    #else:
+    #    gest = 1800
+    
+    y = 100*data.axes[0]
+    p = 100*data.axes[1]
 
-    (y,p,r) = euler_from_quaternion([data.orientation.x,data.orientation.y,data.orientation.z, data.orientation.w])
-
-    y = (y*57.3065)
-    if (y>0): #positive y
-        y = (((-180+y)+90)*(25))+1500
-    else: #negative y
-        y = (((180+y)+90)*(25))+1500
-    p = (((p*57.3065)+90)*(25))+1500
+    #y = (y*57.3065)
+    #if (y>0): #positive y
+    #    y = (((-180+y)+90)*(25))+1500
+    #else: #negative y
+    #    y = (((180+y)+90)*(25))+1500
+    #p = (((p*57.3065)+90)*(25))+1500
 
     yaw = int(y)
     pitch = int(p)
@@ -75,8 +70,7 @@ if __name__ == '__main__':
 
     rospy.Timer(rospy.Duration(0.1), xbeeSend)#Every tenth of a second - edit later to push for speed
     
-    rospy.Subscriber("/myo_gest", UInt8, gestCallback)
-    rospy.Subscriber("/myo_imu", Imu, imuCallback)
+    rospy.Subscriber("/joy", Joy, joyCB)
     
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()

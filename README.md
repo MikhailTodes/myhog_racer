@@ -7,6 +7,7 @@ MYHOG racer stands for Myo Controlled Hemispherical Omni-directional Gimballed R
 This is a repository to store all the software and design of the MYHOG RACER.
 
 ##In this repo:
- * Model - This folder contains the Solid Work files for 3D printing and laser cutting the frame and gimbal.
+ * Model - This folder contains the STL files for 3D printing and laser cutting the frame and gimbal.
+ * ModelV2 - This contains the second version of the design.
  * The SRC folder of the ROS workspace I used to send the serial signals to the MYHOG
  * A folder called xbee containing the C code used to program the PIC32
